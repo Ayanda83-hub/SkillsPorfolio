@@ -1,29 +1,45 @@
 import Link from 'next/link'
-export default function Layout({children}){
-  return (<div>
-    <header style={{position:'sticky',top:0,backdropFilter:'blur(6px)',background:'rgba(255,255,255,.8)',borderBottom:'1px solid #e5e7eb',zIndex:40}}>
-      <div className="container" style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.75rem 0'}}>
-        <Link href="/" style={{fontWeight:700}}>Ayanda Ntombela</Link>
-        <nav className="nav">
-          <Link href="/">Home</Link>
-          <Link href="/projects">Projects</Link>
-          <Link href="/about">About</Link>
-          <Link href="/qualifications">Qualifications</Link>
-          <Link href="/personality">Personality</Link>
-          <Link href="/contact">Contact</Link>
-        </nav>
-      </div>
-    </header>
-    <main>{children}</main>
-    <footer style={{borderTop:'1px solid #e5e7eb',marginTop:'2rem'}}>
-      <div className="container" style={{padding:'1rem 0',fontSize:'.9rem',color:'#6b7280',display:'flex',justifyContent:'space-between',flexWrap:'wrap',gap:8}}>
-        <div>© {new Date().getFullYear()} Ayanda Ntombela</div>
-        <div className="nav">
-          <a href="mailto:ayanda.ntombela@posteo.net">Email</a>
-          <a href="tel:+4915738948062">Phone</a>
-          <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/ayanda-ntombela-2210108/">LinkedIn</a>
+import { useState, useEffect } from 'react'
+
+export default function Layout({ children }) {
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return (
+    <div>
+      <header className={`${scrolled ? 'bg-white shadow-md' : 'bg-transparent'} fixed w-full z-50 transition-all duration-300`}>
+        <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+          <Link href="/" className="font-bold text-lg">Ayanda Ntombela</Link>
+          <nav className="hidden md:flex space-x-6">
+            <Link href="/" className="hover:text-blue-600 transition">Home</Link>
+            <Link href="/projects" className="hover:text-blue-600 transition">Projects</Link>
+            <Link href="/about" className="hover:text-blue-600 transition">About</Link>
+            <Link href="/qualifications" className="hover:text-blue-600 transition">Qualifications</Link>
+            <Link href="/personality" className="hover:text-blue-600 transition">Personality</Link>
+            <Link href="/contact" className="hover:text-blue-600 transition">Contact</Link>
+          </nav>
+          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden focus:outline-none">
+            ☰
+          </button>
         </div>
-      </div>
-    </footer>
-  </div>)
+        {menuOpen && (
+          <div className="md:hidden bg-white shadow-lg px-4 py-2 space-y-2">
+            <Link href="/" className="block hover:text-blue-600">Home</Link>
+            <Link href="/projects" className="block hover:text-blue-600">Projects</Link>
+            <Link href="/about" className="block hover:text-blue-600">About</Link>
+            <Link href="/qualifications" className="block hover:text-blue-600">Qualifications</Link>
+            <Link href="/personality" className="block hover:text-blue-600">Personality</Link>
+            <Link href="/contact" className="block hover:text-blue-600">Contact</Link>
+          </div>
+        )}
+      </header>
+      <main className="pt-20">{children}</main>
+    </div>
+  )
 }
