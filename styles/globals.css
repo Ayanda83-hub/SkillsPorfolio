@@ -1,1 +1,11 @@
-@tailwind base;@tailwind components;@tailwind utilities;.container{max-width:1120px;margin:0 auto;padding:0 1rem}.btn{background:#111827;color:#fff;padding:.6rem 1rem;border-radius:.75rem}.btn-ghost{padding:.6rem 1rem;border-radius:.75rem;border:1px solid #e5e7eb}.card{border:1px solid #e5e7eb;border-radius:1rem;padding:1rem}.nav{display:flex;gap:1rem}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles */
+body {
+  @apply bg-gray-50 text-gray-800;
+}
+a {
+  @apply transition-colors duration-200;
+}
